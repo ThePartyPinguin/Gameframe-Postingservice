@@ -20,7 +20,9 @@ public abstract class DaoCache<J extends JpaRepository<T, I>, T, I>{
         this.localCache = new HashMap<>();
     }
 
-    public abstract void init(J jpaRepository);
+    public void init(J jpaRepository){
+        this.jpaRepository = jpaRepository;
+    }
 
     public T save (T o) {
 

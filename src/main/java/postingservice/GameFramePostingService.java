@@ -33,6 +33,7 @@ public class GameFramePostingService extends SpringBootServletInitializer {
     public IPostingDao postingDao(@Autowired IPostingJpaImpl postingJpaDao){
         PostingCache postingCache = new PostingCache();
         postingCache.init(postingJpaDao);
+        System.out.println("------------------------" + postingJpaDao + "-----------------------------");
         return postingCache;
     }
 }

@@ -10,7 +10,7 @@ public class ThreadPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POST_ID")
-    private long postId;
+    public long postId;
 
     @Column(name = "CREATOR_ID")
     private long creatorId;

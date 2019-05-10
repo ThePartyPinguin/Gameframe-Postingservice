@@ -2,30 +2,35 @@ package postingservice.model.dto.response;
 
 public class FullUserResponse {
 
-    private long userId;
+    private int responseCode;
+    private String responseMessage;
 
-    private String userName;
-
-    private String fullName;
-
-    private String email;
+    private UserDto userData;
 
     public FullUserResponse() {
     }
 
-    public long getUserId() {
-        return userId;
+    public String getResponseMessage() {
+        return responseMessage;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
     }
 
-    public String getFullName() {
-        return fullName;
+    public int getResponseCode() {
+        return responseCode;
     }
 
-    public String getEmail() {
-        return email;
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
+    }
+
+    public UserDto getUserData() {
+        return userData;
+    }
+
+    public void setUserData(UserDto userData) {
+        this.userData = userData;
     }
 }

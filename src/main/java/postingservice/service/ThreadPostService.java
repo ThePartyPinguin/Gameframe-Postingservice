@@ -22,19 +22,18 @@ public class ThreadPostService {
 
     public PostCreatedResponse createNewPost(long userId, CreatePostRequestDto dto){
 
-
+        if(userId != dto.getUserId()){
+            return new PostCreatedResponse(401, "invalid credentials");
+        }
 
         FullUserResponse response = this.userService.getUserByUserId(userId);
 
-        System.out.println("Email = " + response.getEmail());
-        System.out.println("Email = " + response.getUserId());
-
-        if(response == null)
+        if(response.getUserData() == null)
         {
             return new PostCreatedResponse(404, "User not found");
         }
 
-        ThreadPost tp = new ThreadPost(dto.getUserId(), dto.getPostTitle(), dto.getPostContent(), new Date());
+        ThreadPost tp = new ThreadPost(userId, dto.getPostTitle(), dto.getPostContent(), new Date());
 
         System.out.println(tp.getDateCreated());
 
