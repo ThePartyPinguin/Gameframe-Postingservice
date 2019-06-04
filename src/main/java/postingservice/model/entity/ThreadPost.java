@@ -18,7 +18,7 @@ public class ThreadPost {
     @Column(name = "POST_TITLE")
     private String postTitle;
 
-    @Column(name = "POST_CONTENT")
+    @Column(name = "POST_CONTENT", length = 1048576)
     private String postContent;
 
     @Column(name = "POST_DATE_CREATED")
