@@ -2,6 +2,8 @@ package postingservice.repository;
 
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ public abstract class DaoCache<J extends JpaRepository<T, I>, T, I>{
     public DaoCache() {
         this.localCache = new HashMap<>();
     }
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     public void init(J jpaRepository){
         this.jpaRepository = jpaRepository;
@@ -45,7 +49,7 @@ public abstract class DaoCache<J extends JpaRepository<T, I>, T, I>{
             return returnValue;
 
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            this.logger.error(e.getMessage());
         }
 
         return null;

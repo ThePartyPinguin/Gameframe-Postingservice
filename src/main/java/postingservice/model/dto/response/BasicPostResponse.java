@@ -1,5 +1,7 @@
 package postingservice.model.dto.response;
 
+import postingservice.model.entity.ThreadPost;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,13 +14,13 @@ public class BasicPostResponse extends Response {
     private Date datePosted;
     private List<TagDto> tags;
 
-    public BasicPostResponse(int responseCode, String responseMessage, long postId, String title, int followerCount, UserDto creator, Date datePosted, List<TagDto> tags) {
+    public BasicPostResponse(int responseCode, String responseMessage, ThreadPost post, int followerCount, UserDto creator, List<TagDto> tags) {
         super(responseCode, responseMessage);
-        this.postId = postId;
-        this.title = title;
+        this.postId = post.getPostId();
+        this.title = post.getPostTitle();
         this.followerCount = followerCount;
         this.creator = creator;
-        this.datePosted = datePosted;
+        this.datePosted = post.getDateCreated();
         this.tags = tags;
     }
 

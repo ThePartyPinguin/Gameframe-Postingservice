@@ -5,13 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import postingservice.clients.IUserService;
 import postingservice.clients.UserServiceCache;
 import postingservice.model.dto.request.CreatePostRequestDto;
 import postingservice.model.dto.response.BasicPostResponse;
 import postingservice.model.dto.response.FullUserResponse;
 import postingservice.model.dto.response.PostCreatedResponse;
-import postingservice.model.dto.response.UserDto;
 import postingservice.model.entity.ThreadPost;
 import postingservice.repository.IPagingPostJpaDao;
 import postingservice.repository.IPostingDao;
@@ -45,8 +43,6 @@ public class ThreadPostService {
 
         ThreadPost tp = new ThreadPost(userId, dto.getPostTitle(), dto.getPostContent(), new Date());
 
-        System.out.println(tp.getDateCreated());
-
         ThreadPost savedPost = this.postingDao.save(tp);
 
         if(savedPost == null){
@@ -69,7 +65,7 @@ public class ThreadPostService {
             FullUserResponse response = this.userService.getUserByUserId(post.getCreatorId());
 
             if(response.getUserData() != null){
-                BasicPostResponse bpr = new BasicPostResponse(200, "post", post.getPostId(), post.getPostTitle(), new Random().nextInt(25), response.getUserData(), post.getDateCreated(), new ArrayList<>() );
+                BasicPostResponse bpr = new BasicPostResponse(200, "post", post, new Random().nextInt(25), response.getUserData(), new ArrayList<>() );
                 basicPostResponses.add(bpr);
             }
         }
