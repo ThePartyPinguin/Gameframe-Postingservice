@@ -6,10 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import postingservice.clients.UserServiceCache;
+import postingservice.model.dto.TagDto;
 import postingservice.model.dto.request.CreatePostRequestDto;
 import postingservice.model.dto.response.BasicPostResponse;
 import postingservice.model.dto.response.FullUserResponse;
 import postingservice.model.dto.response.PostCreatedResponse;
+import postingservice.model.entity.Tag;
 import postingservice.model.entity.ThreadPost;
 import postingservice.repository.IPagingPostJpaDao;
 import postingservice.repository.IPostingDao;
@@ -28,6 +30,9 @@ public class ThreadPostService {
     @Autowired
     private IPagingPostJpaDao pagingPostDao;
 
+    @Autowired
+    private TagService tagService;
+
     public PostCreatedResponse createNewPost(long userId, CreatePostRequestDto dto){
 
         if(userId != dto.getUserId()){
@@ -41,7 +46,13 @@ public class ThreadPostService {
             return new PostCreatedResponse(404, "User not found");
         }
 
+        List<Tag> tags = this.tagService.saveTags(dto.getTagLine());
+
         ThreadPost tp = new ThreadPost(userId, dto.getPostTitle(), dto.getPostContent(), new Date());
+
+        System.out.println("saved post: " + tp);
+
+        tp.setTagIds(tags);
 
         ThreadPost savedPost = this.postingDao.save(tp);
 
@@ -65,7 +76,8 @@ public class ThreadPostService {
             FullUserResponse response = this.userService.getUserByUserId(post.getCreatorId());
 
             if(response.getUserData() != null){
-                BasicPostResponse bpr = new BasicPostResponse(200, "post", post, new Random().nextInt(25), response.getUserData(), new ArrayList<>() );
+
+                BasicPostResponse bpr = new BasicPostResponse(200, "post", post, new Random().nextInt(25), response.getUserData());
                 basicPostResponses.add(bpr);
             }
         }
