@@ -9,9 +9,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import postingservice.repository.IPostingJpaImpl;
-import postingservice.repository.PostingCache;
-import postingservice.repository.IPostingDao;
+import postingservice.repository.*;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -34,5 +32,13 @@ public class GameFramePostingService extends SpringBootServletInitializer {
         PostingCache postingCache = new PostingCache();
         postingCache.init(postingJpaDao);
         return postingCache;
+    }
+
+    @Bean
+    @Primary
+    public ITagDao tagDao(@Autowired ITagJpaImpl tagJpaDao){
+        TagCache tagCache = new TagCache();
+        tagCache.init(tagJpaDao);
+        return tagCache;
     }
 }
