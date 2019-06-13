@@ -11,6 +11,7 @@ import postingservice.model.dto.request.CreatePostRequestDto;
 import postingservice.model.dto.response.BasicPostResponse;
 import postingservice.model.dto.response.FullUserResponse;
 import postingservice.model.dto.response.PostCreatedResponse;
+import postingservice.model.dto.response.UserDto;
 import postingservice.model.entity.Tag;
 import postingservice.model.entity.ThreadPost;
 import postingservice.repository.IPagingPostJpaDao;
@@ -83,6 +84,19 @@ public class ThreadPostService {
         }
 
         return basicPostResponses;
+
+    }
+
+    public BasicPostResponse getPostById(long postId){
+
+        ThreadPost p = this.postingDao.findById(postId).orElse(null);
+
+        if(p == null)
+            return new BasicPostResponse(404, "Post not found");
+
+        UserDto creator = this.userService.getUserByUserId(p.getCreatorId()).getUserData();
+
+        return new BasicPostResponse(200, "Post", p, new Random().nextInt(25), creator);
 
     }
 

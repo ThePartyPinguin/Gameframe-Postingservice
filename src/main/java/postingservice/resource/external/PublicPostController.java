@@ -20,5 +20,8 @@ public class PublicPostController {
         return this.postService.getPostPage(page, perPageCount);
     }
 
-
+    @GetMapping()
+    public BasicPostResponse getPostById(@RequestParam long postId){
+        return this.postService.getPostById(postId);
+    }
 }

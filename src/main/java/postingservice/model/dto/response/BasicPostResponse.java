@@ -12,6 +12,7 @@ public class BasicPostResponse extends Response {
 
     private long postId;
     private String title;
+    private String content;
     private int followerCount;
     private UserDto creator;
     private Date datePosted;
@@ -24,6 +25,7 @@ public class BasicPostResponse extends Response {
         this.followerCount = followerCount;
         this.creator = creator;
         this.datePosted = post.getDateCreated();
+        this.content = post.getPostContent();
 
         this.tags = new ArrayList<>();
         for (Tag t : post.getTags()) {
@@ -57,5 +59,9 @@ public class BasicPostResponse extends Response {
 
     public List<TagDto> getTags() {
         return tags;
+    }
+
+    public String getContent() {
+        return content;
     }
 }
