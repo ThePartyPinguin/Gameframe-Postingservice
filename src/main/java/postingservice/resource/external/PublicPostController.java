@@ -3,6 +3,7 @@ package postingservice.resource.external;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import postingservice.model.dto.response.BasicPostResponse;
+import postingservice.model.dto.response.FullPostResponse;
 import postingservice.service.ThreadPostService;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class PublicPostController {
     }
 
     @GetMapping()
-    public BasicPostResponse getPostById(@RequestParam long postId){
+    public FullPostResponse getPostById(@RequestParam long postId){
         return this.postService.getPostById(postId);
     }
 }

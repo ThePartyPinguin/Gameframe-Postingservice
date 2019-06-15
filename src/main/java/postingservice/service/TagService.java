@@ -3,10 +3,7 @@ package postingservice.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import postingservice.model.dto.TagDto;
-import postingservice.model.dto.request.AddAllTagsRequest;
 import postingservice.model.entity.Tag;
-import postingservice.model.entity.ThreadPost;
-import postingservice.repository.ITagDao;
 import postingservice.repository.ITagJpaImpl;
 
 import java.util.ArrayList;
