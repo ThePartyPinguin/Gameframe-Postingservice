@@ -6,16 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import postingservice.clients.UserServiceCache;
-import postingservice.model.dto.TagDto;
 import postingservice.model.dto.request.CreatePostRequestDto;
-import postingservice.model.dto.response.BasicPostResponse;
-import postingservice.model.dto.response.FullUserResponse;
-import postingservice.model.dto.response.PostCreatedResponse;
-import postingservice.model.dto.response.UserDto;
+import postingservice.model.dto.response.*;
 import postingservice.model.entity.Tag;
 import postingservice.model.entity.ThreadPost;
 import postingservice.repository.IPagingPostJpaDao;
-import postingservice.repository.IPostingDao;
+import postingservice.repository.IPostingJpaImpl;
 
 import java.util.*;
 
@@ -23,7 +19,7 @@ import java.util.*;
 public class ThreadPostService {
 
     @Autowired
-    private IPostingDao postingDao;
+    private IPostingJpaImpl postingJpa;
 
     @Autowired
     private UserServiceCache userService;
@@ -33,6 +29,9 @@ public class ThreadPostService {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private CommentService commentService;
 
     public PostCreatedResponse createNewPost(long userId, CreatePostRequestDto dto){
 
@@ -55,7 +54,7 @@ public class ThreadPostService {
 
         tp.setTagIds(tags);
 
-        ThreadPost savedPost = this.postingDao.save(tp);
+        ThreadPost savedPost = this.postingJpa.save(tp);
 
         if(savedPost == null){
             return new PostCreatedResponse(502, "Something went wrong trying to save your post");
@@ -87,16 +86,19 @@ public class ThreadPostService {
 
     }
 
-    public BasicPostResponse getPostById(long postId){
+    public FullPostResponse getPostById(long postId){
 
-        ThreadPost p = this.postingDao.findById(postId).orElse(null);
+        ThreadPost p = this.postingJpa.findById(postId).orElse(null);
 
         if(p == null)
-            return new BasicPostResponse(404, "Post not found");
+            return new FullPostResponse(404, "Post not found");
 
         UserDto creator = this.userService.getUserByUserId(p.getCreatorId()).getUserData();
 
-        return new BasicPostResponse(200, "Post", p, new Random().nextInt(25), creator);
+        Set<CommentResponse> comments = this.commentService.getCommentResponsesByPost(p);
+
+
+        return new FullPostResponse(200, "Post", p, creator, comments, new Random().nextInt(25));
 
     }
 

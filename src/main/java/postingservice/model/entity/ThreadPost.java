@@ -37,6 +37,11 @@ public class ThreadPost {
     @JoinTable(name = "POSTS_TAGS", joinColumns = @JoinColumn(name = "POST_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
     private Set<Tag> tags;
 
+    @Column(name = "POST_COMMENT_IDS")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "POST_ID")
+    private Set<Comment> comments;
+
     public ThreadPost() {
         tags = new HashSet<>();
     }
@@ -125,5 +130,16 @@ public class ThreadPost {
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public void addComment(Comment comment){
+        if(this.comments == null)
+            this.comments = new HashSet<>();
+
+        this.comments.add(comment);
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
     }
 }
