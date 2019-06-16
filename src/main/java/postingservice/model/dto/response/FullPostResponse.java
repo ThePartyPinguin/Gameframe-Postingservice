@@ -1,6 +1,5 @@
 package postingservice.model.dto.response;
 
-import postingservice.model.entity.Comment;
 import postingservice.model.entity.Tag;
 import postingservice.model.entity.ThreadPost;
 

@@ -10,7 +10,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COMMENT_ID")
-    public long Id;
+    public long id;
 
     @Column(name = "USER_ID")
     private long userId;
@@ -37,7 +37,7 @@ public class Comment {
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public long getUserId() {

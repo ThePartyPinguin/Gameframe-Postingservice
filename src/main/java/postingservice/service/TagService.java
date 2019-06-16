@@ -22,7 +22,6 @@ public class TagService {
         List<TagDto> finalTags = new ArrayList<>();
 
         for (String tag : tags) {
-            System.out.println(tag);
             String finalTag = tag.replaceAll("\\s", "").toLowerCase();
 
             if(finalTag.equals(""))
