@@ -1,6 +1,8 @@
 package postingservice.model.dto.response;
 
-public class Response {
+import org.springframework.hateoas.ResourceSupport;
+
+public class Response extends ResourceSupport {
 
     private int responseCode;
     private String responseMessage;
