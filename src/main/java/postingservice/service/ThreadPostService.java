@@ -31,6 +31,9 @@ public class ThreadPostService {
     private TagService tagService;
 
     @Autowired
+    private FollowService followService;
+
+    @Autowired
     private CommentService commentService;
 
     public PostCreatedResponse createNewPost(long userId, CreatePostRequestDto dto){
@@ -49,8 +52,6 @@ public class ThreadPostService {
         List<Tag> tags = this.tagService.saveTags(dto.getTagLine());
 
         ThreadPost tp = new ThreadPost(userId, dto.getPostTitle(), dto.getPostContent(), new Date());
-
-        System.out.println("saved post: " + tp);
 
         tp.setTagIds(tags);
 
@@ -75,9 +76,11 @@ public class ThreadPostService {
 
             FullUserResponse response = this.userService.getUserByUserId(post.getCreatorId());
 
+            int followCount = this.followService.getFollowCountForPost(post.getPostId());
+
             if(response.getUserData() != null){
 
-                BasicPostResponse bpr = new BasicPostResponse(200, "post", post, new Random().nextInt(25), response.getUserData());
+                BasicPostResponse bpr = new BasicPostResponse(200, "post", post, followCount, response.getUserData());
                 basicPostResponses.add(bpr);
             }
         }
@@ -86,9 +89,9 @@ public class ThreadPostService {
 
     }
 
-    public FullPostResponse getPostById(long postId){
+    public FullPostResponse getFullPostResponseById(long postId){
 
-        ThreadPost p = this.postingJpa.findById(postId).orElse(null);
+        ThreadPost p = this.getPostById(postId);
 
         if(p == null)
             return new FullPostResponse(404, "Post not found");
@@ -97,9 +100,29 @@ public class ThreadPostService {
 
         Set<CommentResponse> comments = this.commentService.getCommentResponsesByPost(p);
 
+        int followCount = this.followService.getFollowCountForPost(p.getPostId());
 
-        return new FullPostResponse(200, "Post", p, creator, comments, new Random().nextInt(25));
+        return new FullPostResponse(200, "Post", p, creator, comments, followCount);
 
+    }
+
+    public BasicPostResponse getBasicPostResponseById(long postId){
+
+        ThreadPost p = this.getPostById(postId);
+
+        if(p == null)
+            return new BasicPostResponse(404, "Post not found");
+
+        UserDto creator = this.userService.getUserByUserId(p.getCreatorId()).getUserData();
+
+        int followCount = this.followService.getFollowCountForPost(p.getPostId());
+
+        return new BasicPostResponse(200, "Post", p, followCount, creator);
+
+    }
+
+    public ThreadPost getPostById(long postId){
+        return this.postingJpa.findById(postId).orElse(null);
     }
 
 }

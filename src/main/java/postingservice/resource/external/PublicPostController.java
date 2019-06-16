@@ -23,6 +23,6 @@ public class PublicPostController {
 
     @GetMapping()
     public FullPostResponse getPostById(@RequestParam long postId){
-        return this.postService.getPostById(postId);
+        return this.postService.getFullPostResponseById(postId);
     }
 }
