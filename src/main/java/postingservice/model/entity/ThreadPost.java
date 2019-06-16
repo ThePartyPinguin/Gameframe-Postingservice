@@ -1,7 +1,5 @@
 package postingservice.model.entity;
 
-import postingservice.model.dto.TagDto;
-
 import javax.persistence.*;
 import java.util.*;
 

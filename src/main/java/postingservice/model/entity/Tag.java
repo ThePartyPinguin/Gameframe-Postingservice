@@ -19,7 +19,7 @@ public class Tag {
     private String tagString;
 
     @Column(name = "TAG_TIMES_USED")
-    private long TimesUsed;
+    private long timesUsed;
 
     @JsonIgnore
     @Column(name = "POST_ID")
@@ -61,10 +61,10 @@ public class Tag {
     }
 
     public long getTimesUsed() {
-        return TimesUsed;
+        return timesUsed;
     }
 
     public void setTimesUsed(long timesUsed) {
-        TimesUsed = timesUsed;
+        this.timesUsed = timesUsed;
     }
 }
